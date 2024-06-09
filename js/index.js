@@ -9,9 +9,13 @@ function getValueForm() {
   for (let field of arrField) {
     let { value, id } = field;
     nhanVien[id] = value;
+   console.log(field)   
     let parent = field.parentElement;
-    console.log(parent)
-    let errorField = parent.querySelector("span");
+   // console.log(parent);
+   let grandparent = parent.parentElement;
+  console.log(grandparent)
+   let errorField = grandparent.querySelector(".sp-thongbao");
+
     // console.log(errorField);
     let check = checkEmptryValue(value, errorField);
 
@@ -42,8 +46,8 @@ function getValueForm() {
     if (check && id == "gioLam") {
       isValid &= checkGioLamValue(value, errorField);
     }
-  //   console.log(nhanVien);
-   }
+    //   console.log(nhanVien);
+  }
 
   if (isValid) {
     return nhanVien;
@@ -97,9 +101,9 @@ function renderArrNhanVien(arr = arrNhanVien) {
       <td>${email}</td>
       <td>${datepicker}</td>
       <td>${chucVu}</td>
-      <td>${newArrNhanVien.tongLuong().toLocaleString('VN', {
-        style: 'currency',
-        currency: 'VND',
+      <td>${newArrNhanVien.tongLuong().toLocaleString("VN", {
+        style: "currency",
+        currency: "VND",
       })}</td>
       <td>${newArrNhanVien.xepLoai()}</td>
       <td>
