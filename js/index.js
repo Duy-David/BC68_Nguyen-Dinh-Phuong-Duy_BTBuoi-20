@@ -9,12 +9,13 @@ function getValueForm() {
   for (let field of arrField) {
     let { value, id } = field;
     nhanVien[id] = value;
-   console.log(field)   
+    console.log(field);
     let parent = field.parentElement;
-   // console.log(parent);
-   let grandparent = parent.parentElement;
-  console.log(grandparent)
-   let errorField = grandparent.querySelector(".sp-thongbao");
+    // console.log(parent);
+    let grandparent = parent.parentElement;
+    console.log(grandparent);
+    let errorField = grandparent.querySelector(".sp-thongbao");
+    errorField.style.display = "inline-block";
 
     // console.log(errorField);
     let check = checkEmptryValue(value, errorField);
@@ -107,8 +108,9 @@ function renderArrNhanVien(arr = arrNhanVien) {
       })}</td>
       <td>${newArrNhanVien.xepLoai()}</td>
       <td>
-        <button onclick = "deleteNhanVien(${tknv})" class="btn btn-danger">Xoá</button>
-        <button onclick = "getInfoNhanVien(${tknv})"class="btn btn-warning">Sửa</button>
+        <button onclick = "deleteNhanVien('${email}')" class="btn btn-danger">Xoá</button>
+        <button onclick = "getInfoNhanVien('${email}')" class="btn btn-dark" data-toggle="modal"
+									data-target="#myModal" >Sửa</button>
       </td>     
       </tr>
       `;
@@ -132,62 +134,68 @@ function getLocalStorage(key = "arrNhanVien") {
     renderArrNhanVien();
   }
 }
-
+console.log(arrNhanVien);
 // //Chức năng xóa dữ liệu của nhân viên
-// function deleteNhanVien(mnv) {
-//   // console.log(tknv);
-//   // Tìm kiếm vị trí của Nhân viên đang cần xoá trong mảng arrNhanVien thông qua tknv
-//   // Sau khi đã tìm được vị trí, thực hiện sử dụng các phương thức từ mảng để xoá
-//   // findIndex
-//   let index = arrNhanVien.findIndex((item) => {
-//     return item.tknv == mnv;
-//   });
-//   // console.log(index);
-//   if (index != -1) {
-//     arrNhanVien.splice(index, 1);
-//     renderArrNhanVien();
-//     saveLocalStorage();
-//   }
-// }
+function deleteNhanVien(email) {
+  // console.log(email);
+  // Tìm kiếm vị trí của Nhân viên đang cần xoá trong mảng arrNhanVien thông qua tknv
+  // Sau khi đã tìm  được vị trí, thực hiện sử dụng các phương thức từ mảng để xoá
+  // findIndex
+  let index = arrNhanVien.findIndex((item) => {
+    // console.log(item);
+    return item.email == email;
+  });
+
+  //console.log(index);
+  if (index != -1) {
+    arrNhanVien.splice(index, 1);
+    renderArrNhanVien();
+    saveLocalStorage();
+  }
+}
 
 // // chức năng sửa dữ liệu nhân viên
-// function getInfoNhanVien(mnv) {
-//   //  console.log(mssv);
-//   // Sử dụng hàm find để lấy phần tử trong mảng
-//   let nhanVien = arrNhanVien.find((item) => {
-//     return item.tknv == mnv;
-//   });
-//   if (nhanVien) {
-//     // đưa dữ liệu nhânVien lên giao diện
-//     let arrField = document.querySelectorAll(
-//       "#formQLSV input, #formQLSV select"
-//     );
-//     // console.log(arrField);
-//     for (let field of arrField) {
-//       let id = field.id;
-//       field.value = nhanVien[id];
-//     }
-//   }
-// }
+function getInfoNhanVien(email) {
+  console.log(email);
+  // Sử dụng hàm find để lấy phần tử trong mảng
+  let nhanVien = arrNhanVien.find((item, index) => {
+    return item.email == email;
+  });
+  console.log(nhanVien);
+  if (nhanVien) {
+    // đưa dữ liệu nhân viên lên giao diện
+    let arrField = document.querySelectorAll(
+      "#formQLNV input,#formQLNV select"
+    );
+    console.log(arrField);
+    for (let field of arrField) {
+      console.log(field);
+      let id = field.id;
+      field.value = nhanVien[id];
+      console.log(field);
+    } 
+  }
+}
+
 // // Chúc năng updateNhanvien
-// function updateNhanVien() {
+ function updateNhanVien() {
 //   //Thực hiện lấy dữ liệu của người dùng
 //   // tách hàm khi sữ dụng nhiều lần
-//   let nhanVien = getVauleForm();
-//   arrNhanVien.push(nhanVien);
-//   //console.log(arrNhanVien);
+   let nhanVien = getVauleForm();
+   arrNhanVien.push(nhanVien);
+      //console.log(arrNhanVien);
 //   //tìm kiếm vị trí index của phần tử đang chỉnh sửa trong mảng
-//   let index = arrNhanVien.findIndex((item, index) => {
-//     return item.tknv == nhanVien.tknv;
-//   });
-//   if (index != -1) {
-//     arrNhanVien[index] = nhanVien;
-//     renderSaveReset();
-//     document.getElementById("tknv").readOnly = false;
-//   }
-// }
+  let index = arrNhanVien.findIndex((item, index) => {
+     return item.tknv == nhanVien.tknv;
+   });
+   if (index != -1) {
+     arrNhanVien[index] = nhanVien;
+    renderSaveReset();
+     document.getElementById("tknv").readOnly = false;
+   }
+ }
 
-// document.getElementById("btnCapNhat").onclick = updateNhanVien;
+ document.getElementById("btnCapNhat").onclick = updateNhanVien;
 
 // // Chức năng tìm kiếm
 // function searchNhanVien(event) {
