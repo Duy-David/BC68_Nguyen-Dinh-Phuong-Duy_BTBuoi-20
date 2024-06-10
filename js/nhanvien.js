@@ -1,5 +1,14 @@
 class NhanVien {
-  constructor(tknv = "", name = "", email = "", password = "", datepicker = "", luongCB = 0, chucVu = "", gioLam = 0) {
+  constructor(
+    tknv = "",
+    name = "",
+    email = "",
+    password = "",
+    datepicker = "",
+    luongCB = 0,
+    chucVu = "",
+    gioLam = 0
+  ) {
     this.tknv = tknv;
     this.name = name;
     this.email = email;
@@ -9,27 +18,29 @@ class NhanVien {
     this.chucVu = chucVu;
     this.gioLam = gioLam;
   }
-  xepLoai = function () {
-      let xepLoai = ""
+  xepLoaiNhanVien = function () {
+    let xepLoai = "";
     if (this.gioLam >= 192) {
       xepLoai = "Nhân viên xuất sắc";
     } else if (this.gioLam >= 176 && this.gioLam < 192) {
-      xepLoai ="Nhân viên giỏi";
+      xepLoai = "Nhân viên giỏi";
     } else if (this.gioLam >= 160 && this.gioLam < 176) {
-      xepLoai= "Nhân viên khá";
+      xepLoai = "Nhân viên khá";
     } else {
-      xepLoai= "Nhân viên trung bình";
-    }return xepLoai
+      xepLoai = "Nhân viên trung bình";
+    }
+    return xepLoai;
   };
   tongLuong = function () {
-    let tongLuong = 0
+    let tongLuong = 0;
     if (this.chucVu == "Sếp") {
-      tongLuong= this.luongCB * 3;
+      tongLuong = this.luongCB * 3;
     } else if (this.chucVu == "Trưởng phòng") {
-      tongLuong=this.luongCB * 2;
+      tongLuong = this.luongCB * 2;
     } else if (this.chucVu == "Nhân viên") {
       tongLuong = this.luongCB * 1;
-    }return tongLuong
+    }
+    return tongLuong;
   };
 }
 

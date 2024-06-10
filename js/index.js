@@ -77,9 +77,9 @@ document.getElementById("formQLNV").onsubmit = function (event) {
   // xoá toàn bộ dữ liệu đang có trên form
   event.target.reset();
   document.getElementById("formQLNV").reset();
-  console.log(arrNhanVien);
+  //  console.log(arrNhanVien);
 };
-
+0;
 function renderSaveReset() {
   renderArrNhanVien();
   saveLocalStorage();
@@ -106,10 +106,10 @@ function renderArrNhanVien(arr = arrNhanVien) {
         style: "currency",
         currency: "VND",
       })}</td>
-      <td>${newArrNhanVien.xepLoai()}</td>
+      <td>${newArrNhanVien.xepLoaiNhanVien()}</td>
       <td>
         <button onclick = "deleteNhanVien('${email}')" class="btn btn-danger">Xoá</button>
-        <button onclick = "getInfoNhanVien('${email}')" class="btn btn-dark" data-toggle="modal"
+        <button onclick = "getInfoNhanVien('${email}')" class="btn btn-dark mt-3" data-toggle="modal"
 									data-target="#myModal" >Sửa</button>
       </td>     
       </tr>
@@ -173,50 +173,52 @@ function getInfoNhanVien(email) {
       let id = field.id;
       field.value = nhanVien[id];
       console.log(field);
-    } 
+    }
+    document.getElementById("tknv").readOnly = true;
   }
 }
 
 // // Chúc năng updateNhanvien
- function updateNhanVien() {
-//   //Thực hiện lấy dữ liệu của người dùng
-//   // tách hàm khi sữ dụng nhiều lần
-   let nhanVien = getVauleForm();
-   arrNhanVien.push(nhanVien);
-      //console.log(arrNhanVien);
-//   //tìm kiếm vị trí index của phần tử đang chỉnh sửa trong mảng
+function updateNhanVien() {
+  //   //Thực hiện lấy dữ liệu của người dùng
+  //   // tách hàm khi sữ dụng nhiều lần
+  let nhanVien = getValueForm();
+  //  arrNhanVien.push(nhanVien);
+  //console.log(arrNhanVien);
+  //   //tìm kiếm vị trí index của phần tử đang chỉnh sửa trong mảng
   let index = arrNhanVien.findIndex((item, index) => {
-     return item.tknv == nhanVien.tknv;
-   });
-   if (index != -1) {
-     arrNhanVien[index] = nhanVien;
+    return item.tknv == nhanVien.tknv;
+  });
+  if (index != -1) {
+    arrNhanVien[index] = nhanVien;
     renderSaveReset();
-     document.getElementById("tknv").readOnly = false;
-   }
- }
+    document.getElementById("tknv").readOnly = false;
+  }
+}
 
- document.getElementById("btnCapNhat").onclick = updateNhanVien;
+document.getElementById("btnCapNhat").onclick = updateNhanVien;
 
-// // Chức năng tìm kiếm
-// function searchNhanVien(event) {
-//   // console.log(event.target.value);
-//   let newKeyword = removeVietnameseTones(
-//     event.target.value.toLowerCase().trim()
-//   );
-//   // console.log(newKeyword);
-//   // Khi filter hoạt động hàm sẽ lọc tìm kiếm và trả về mảng mới lưu trữ vào arrNhanVienFillter
-//   arrNhanVienFillter = arrNhanVien.filter((item) => {
-//     // thực hiện kiểm tra keyword người dùngnhập vào có được chứa trong nhân viên hay không
-//     let newLoaiNhanVien = removeVietnameseTones(
-//       item.xepLoai.value.toLowerCase().trim()
-//     );
-//     // hàm includes
-//     return newLoaiNhanVien.includes(newKeyword);
-//   });
-//   console.log(arrNhanVienFillter);
-//   // convert dữ liệu trước khi đọc=> chuyển keyword thành chữ thường , loại bỏ tất cả các dấu
-//   // gọi hàm hiện thị nhân viên
-//   renderArrNhanVien(arrNhanVienFillter);
-// }
-// // oninput
-// document.getElementById("searchName").oninput = searchNhanVien
+// Chức năng tìm kiếm
+function searchNhanVien(event) {
+  // console.log(event.target.value);
+  let newKeyword = removeVietnameseTones(
+    event.target.value.toLowerCase().trim()
+  );
+  console.log(newKeyword);
+  // Khi filter hoạt động hàm sẽ lọc tìm kiếm và trả về mảng mới lưu trữ vào arrNhanVienFillter
+  arrNhanVienFillter = arrNhanVien.filter((item) => {
+    // thực hiện kiểm tra keyword người dùngnhập vào có được chứa trong nhân viên hay không
+    console.log(item);
+    let newLoaiNhanVien = removeVietnameseTones(
+      item.xepLoaiNhanVien().toLowerCase().trim()
+    );
+    // hàm includes
+    return newLoaiNhanVien.includes(newKeyword);
+  });
+  console.log(arrNhanVienFillter);
+  // convert dữ liệu trước khi đọc=> chuyển keyword thành chữ thường , loại bỏ tất cả các dấu
+  // gọi hàm hiện thị nhân viên
+  renderArrNhanVien(arrNhanVienFillter);
+}
+// oninput
+document.getElementById("searchName").oninput = searchNhanVien;
