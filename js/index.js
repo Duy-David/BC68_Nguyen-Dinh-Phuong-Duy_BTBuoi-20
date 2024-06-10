@@ -79,7 +79,6 @@ document.getElementById("formQLNV").onsubmit = function (event) {
   document.getElementById("formQLNV").reset();
   //  console.log(arrNhanVien);
 };
-0;
 function renderSaveReset() {
   renderArrNhanVien();
   saveLocalStorage();
@@ -87,14 +86,15 @@ function renderSaveReset() {
 
   document.getElementById("formQLNV").reset();
 }
-
 //console.log(arrNhanVien);
 function renderArrNhanVien(arr = arrNhanVien) {
   let content = "";
   for (let nhanVien of arr) {
-    let newArrNhanVien = new NhanVien();
-    Object.assign(newArrNhanVien, nhanVien);
-    let { tknv, name, email, datepicker, chucVu } = newArrNhanVien;
+    let newArrNhanVien = Object.assign(new NhanVien(), nhanVien);
+    console.log(newArrNhanVien);
+
+    let { tknv, name, email, datepicker, chucVu, gioLam } = newArrNhanVien;
+    console.log(typeof newArrNhanVien.xepLoaiNhanVien);
     content += `
       <tr>
       <td>${tknv}</td>
@@ -106,7 +106,7 @@ function renderArrNhanVien(arr = arrNhanVien) {
         style: "currency",
         currency: "VND",
       })}</td>
-      <td>${newArrNhanVien.xepLoaiNhanVien()}</td>
+      <td>${newArrNhanVien.xepLoaiNhanVien(gioLam)}</td>
       <td>
         <button onclick = "deleteNhanVien('${email}')" class="btn btn-danger">Xoá</button>
         <button onclick = "getInfoNhanVien('${email}')" class="btn btn-dark mt-3" data-toggle="modal"
@@ -186,7 +186,7 @@ function updateNhanVien() {
   //  arrNhanVien.push(nhanVien);
   //console.log(arrNhanVien);
   //   //tìm kiếm vị trí index của phần tử đang chỉnh sửa trong mảng
-  let index = arrNhanVien.findIndex((item, index) => {
+  let index = arrNhanVien.findIndex((item) => {
     return item.tknv == nhanVien.tknv;
   });
   if (index != -1) {
@@ -197,7 +197,7 @@ function updateNhanVien() {
 }
 
 document.getElementById("btnCapNhat").onclick = updateNhanVien;
-
+console.log(arrNhanVien);
 // Chức năng tìm kiếm
 function searchNhanVien(event) {
   // console.log(event.target.value);
@@ -205,13 +205,18 @@ function searchNhanVien(event) {
     event.target.value.toLowerCase().trim()
   );
   console.log(newKeyword);
-  // Khi filter hoạt động hàm sẽ lọc tìm kiếm và trả về mảng mới lưu trữ vào arrNhanVienFillter
-  arrNhanVienFillter = arrNhanVien.filter((item) => {
-    // thực hiện kiểm tra keyword người dùngnhập vào có được chứa trong nhân viên hay không
+
+  let newArrNhanVien = arrNhanVien.map(nhanVien=>{
+    return Object.assign(new NhanVien(),nhanVien)
+  })
+   console.log(newArrNhanVien);
+  arrNhanVienFillter = newArrNhanVien.filter(function (item) {
+    // thực hiện kiểm tra keyword người dùngnhập vào có được chứa trong nhân viên hay không    console.log(item);
     console.log(item);
-    let newLoaiNhanVien = removeVietnameseTones(
-      item.xepLoaiNhanVien().toLowerCase().trim()
-    );
+    console.log(typeof item.xepLoaiNhanVien(item.gioLam));
+    let xepLoai = item.xepLoaiNhanVien(item.gioLam).toLowerCase().trim();
+  //  console.log(xepLoai);
+    let newLoaiNhanVien = removeVietnameseTones(xepLoai);
     // hàm includes
     return newLoaiNhanVien.includes(newKeyword);
   });

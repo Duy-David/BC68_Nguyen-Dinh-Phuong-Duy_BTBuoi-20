@@ -1,13 +1,13 @@
 class NhanVien {
   constructor(
-    tknv = "",
-    name = "",
-    email = "",
-    password = "",
-    datepicker = "",
-    luongCB = 0,
-    chucVu = "",
-    gioLam = 0
+    tknv ,
+    name ,
+    email,
+    password ,
+    datepicker,
+    luongCB,
+    chucVu ,
+    gioLam 
   ) {
     this.tknv = tknv;
     this.name = name;
@@ -17,20 +17,8 @@ class NhanVien {
     this.luongCB = luongCB;
     this.chucVu = chucVu;
     this.gioLam = gioLam;
+    //this.xepLoaiNhanVien = xepLoaiNhanVien;
   }
-  xepLoaiNhanVien = function () {
-    let xepLoai = "";
-    if (this.gioLam >= 192) {
-      xepLoai = "Nhân viên xuất sắc";
-    } else if (this.gioLam >= 176 && this.gioLam < 192) {
-      xepLoai = "Nhân viên giỏi";
-    } else if (this.gioLam >= 160 && this.gioLam < 176) {
-      xepLoai = "Nhân viên khá";
-    } else {
-      xepLoai = "Nhân viên trung bình";
-    }
-    return xepLoai;
-  };
   tongLuong = function () {
     let tongLuong = 0;
     if (this.chucVu == "Sếp") {
@@ -42,8 +30,16 @@ class NhanVien {
     }
     return tongLuong;
   };
+  xepLoaiNhanVien = function (gioLam) {
+    if (gioLam*1 >= 192) {
+      return "Nhân viên xuất sắc";
+    } else if (gioLam*1 >= 176 && gioLam*1 < 192) {
+      return "Nhân viên giỏi";
+    } else if (gioLam*1 >= 160 && gioLam*1< 176) {
+      return "Nhân viên khá";
+    } else {
+      return "Nhân viên trung bình";
+    }
+    
+  };
 }
-
-//let nv1 = new NhanVien("001", "Nguyen Van A", "a@example.com", "password123", "01/01/2022", 5000, "Sếp", 200);
-//console.log(nv1.xepLoai()); // Output: "Nhân viên xuất sắc"
-//console.log(nv1.tongLuong()); // Output: 15000
