@@ -7,7 +7,7 @@ class NhanVien {
     datepicker,
     luongCB,
     chucVu ,
-    gioLam 
+    gioLam,
   ) {
     this.tknv = tknv;
     this.name = name;
@@ -17,7 +17,8 @@ class NhanVien {
     this.luongCB = luongCB;
     this.chucVu = chucVu;
     this.gioLam = gioLam;
-    //this.xepLoaiNhanVien = xepLoaiNhanVien;
+    this.xepLoaiNhanVien;
+    this.tongLuong
   }
   tongLuong = function () {
     let tongLuong = 0;

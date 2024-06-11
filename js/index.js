@@ -176,6 +176,7 @@ function getInfoNhanVien(email) {
     }
     document.getElementById("tknv").readOnly = true;
   }
+  document.getElementById("btnThemNV").remove()
 }
 
 // // Chúc năng updateNhanvien
