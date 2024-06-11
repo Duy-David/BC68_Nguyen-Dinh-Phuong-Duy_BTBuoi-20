@@ -9,11 +9,11 @@ function getValueForm() {
   for (let field of arrField) {
     let { value, id } = field;
     nhanVien[id] = value;
-    console.log(field);
+   // console.log(field);
     let parent = field.parentElement;
     // console.log(parent);
     let grandparent = parent.parentElement;
-    console.log(grandparent);
+   // console.log(grandparent);
     let errorField = grandparent.querySelector(".sp-thongbao");
     errorField.style.display = "inline-block";
 
@@ -62,12 +62,12 @@ document.getElementById("formQLNV").onsubmit = function (event) {
   if (!nhanVien) {
     return;
   }
-  console.log(nhanVien);
+  //console.log(nhanVien);
 
   // thêm nhân viên vào mảng
   arrNhanVien.push(nhanVien);
 
-  console.log(arrNhanVien);
+ // console.log(arrNhanVien);
   //  renderSaveReset(event)
   // chạy hàm renderArrNhanVien để hiển thị dữ liệu
   renderArrNhanVien();
@@ -91,10 +91,10 @@ function renderArrNhanVien(arr = arrNhanVien) {
   let content = "";
   for (let nhanVien of arr) {
     let newArrNhanVien = Object.assign(new NhanVien(), nhanVien);
-    console.log(newArrNhanVien);
+//    console.log(newArrNhanVien);
 
     let { tknv, name, email, datepicker, chucVu, gioLam } = newArrNhanVien;
-    console.log(typeof newArrNhanVien.xepLoaiNhanVien);
+   // console.log(typeof newArrNhanVien.xepLoaiNhanVien);
     content += `
       <tr>
       <td>${tknv}</td>
@@ -134,7 +134,7 @@ function getLocalStorage(key = "arrNhanVien") {
     renderArrNhanVien();
   }
 }
-console.log(arrNhanVien);
+//console.log(arrNhanVien);
 // //Chức năng xóa dữ liệu của nhân viên
 function deleteNhanVien(email) {
   // console.log(email);
@@ -156,23 +156,23 @@ function deleteNhanVien(email) {
 
 // // chức năng sửa dữ liệu nhân viên
 function getInfoNhanVien(email) {
-  console.log(email);
+ // console.log(email);
   // Sử dụng hàm find để lấy phần tử trong mảng
   let nhanVien = arrNhanVien.find((item, index) => {
     return item.email == email;
   });
-  console.log(nhanVien);
+ //    console.log(nhanVien);
   if (nhanVien) {
     // đưa dữ liệu nhân viên lên giao diện
     let arrField = document.querySelectorAll(
       "#formQLNV input,#formQLNV select"
     );
-    console.log(arrField);
+ //   console.log(arrField);
     for (let field of arrField) {
-      console.log(field);
+    //  console.log(field);
       let id = field.id;
       field.value = nhanVien[id];
-      console.log(field);
+      //console.log(field);
     }
     document.getElementById("tknv").readOnly = true;
   }
@@ -197,30 +197,30 @@ function updateNhanVien() {
 }
 
 document.getElementById("btnCapNhat").onclick = updateNhanVien;
-console.log(arrNhanVien);
+//console.log(arrNhanVien);
 // Chức năng tìm kiếm
 function searchNhanVien(event) {
   // console.log(event.target.value);
   let newKeyword = removeVietnameseTones(
     event.target.value.toLowerCase().trim()
   );
-  console.log(newKeyword);
-
-  let newArrNhanVien = arrNhanVien.map(nhanVien=>{
-    return Object.assign(new NhanVien(),nhanVien)
-  })
-   console.log(newArrNhanVien);
+//Thực hiện clone Object  từ DOO NhanViên()  để lấy dữ liêu truyền vào ob mới
+  let newArrNhanVien = [];
+  for (let nhanVien of arrNhanVien) {
+    newArrNhanVien.push(Object.assign(new NhanVien(), nhanVien));
+  }
+  //console.log(newArrNhanVien);
   arrNhanVienFillter = newArrNhanVien.filter(function (item) {
     // thực hiện kiểm tra keyword người dùngnhập vào có được chứa trong nhân viên hay không    console.log(item);
-    console.log(item);
-    console.log(typeof item.xepLoaiNhanVien(item.gioLam));
+   // console.log(item);
+    //console.log(typeof item.xepLoaiNhanVien(item.gioLam));
     let xepLoai = item.xepLoaiNhanVien(item.gioLam).toLowerCase().trim();
-  //  console.log(xepLoai);
+    //  console.log(xepLoai);
     let newLoaiNhanVien = removeVietnameseTones(xepLoai);
     // hàm includes
     return newLoaiNhanVien.includes(newKeyword);
   });
-  console.log(arrNhanVienFillter);
+  //console.log(arrNhanVienFillter);
   // convert dữ liệu trước khi đọc=> chuyển keyword thành chữ thường , loại bỏ tất cả các dấu
   // gọi hàm hiện thị nhân viên
   renderArrNhanVien(arrNhanVienFillter);
