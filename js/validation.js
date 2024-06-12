@@ -75,8 +75,6 @@ function checkDatepickerValue(value, errorField) {
   }
 }
 function checkLuongCBValue(value, errorField, min = 1000000, max = 20000000) {
-  //   let regexLuongCB = /^(1[0-9]{6}|20[0]{6}|[2-9][0-9]{6}|[1-9][0-9]{7})$/;
-  //   let isValid = regexLuongCB.test(value);
   if (min <= value && value <= max) {
     errorField.innerHTML = "";
     return true;
@@ -95,14 +93,12 @@ function checkLuongCBValue(value, errorField, min = 1000000, max = 20000000) {
   }
 }
 function checkGioLamValue(value, errorField, min = 80, max = 200) {
-  //let regexGioLam = /^(8[0-9]|9[0-9]|1[0-9]{2}|200)$/;
-  //let isValid = regexGioLam.test(value);
   if (min <= value && value <= max) {
     //TH Dữ liêu trong số
     errorField.innerHTML = "";
     return true;
   } else {
-    errorField.innerHTML = `Vui lòng nhập giờ làm từ ${min} đến ${max}`;
+    errorField.innerHTML = `Vui lòng nhập giờ làm từ ${min} giờ đến ${max} giờ`;
     return false;
   }
   console.log(value);

@@ -45,14 +45,12 @@ document.getElementById("formQLNV").onsubmit = function (event) {
   // thêm nhân viên vào mảng
   arrNhanVien.push(nhanVien);
 
-  // console.log(arrNhanVien);
-  //  renderSaveReset(event)
   // chạy hàm renderArrNhanVien để hiển thị dữ liệu
   renderArrNhanVien();
   // gọi tới phương thức lưu trữ local
   saveLocalStorage();
 
-  // xoá toàn bộ dữ liệu đang có trên form
+  // reset toàn bộ dữ liệu đang có trên form
   event.target.reset();
   document.getElementById("formQLNV").reset();
   //  console.log(arrNhanVien);
@@ -60,7 +58,6 @@ document.getElementById("formQLNV").onsubmit = function (event) {
 function renderSaveReset() {
   renderArrNhanVien();
   saveLocalStorage();
-  // event.target.reset();
 
   document.getElementById("formQLNV").reset();
 }
@@ -105,7 +102,6 @@ function getValueForm() {
 
     // console.log(nhanVien);
     isValid &= check;
-    // Nếu như trường hợp rỗng thì phải hiện thị là không bỏ trốngchứ không hiện th5 check min max
     if (check && id == "tknv") {
       isValid &= checkTknvValue(value, errorField, 4, 6);
     }
@@ -145,9 +141,7 @@ function getValueForm() {
 // //Chức năng xóa dữ liệu của nhân viên
 function deleteNhanVien(email) {
   // console.log(email);
-  // Tìm kiếm vị trí của Nhân viên đang cần xoá trong mảng arrNhanVien thông qua tknv
-  // Sau khi đã tìm  được vị trí, thực hiện sử dụng các phương thức từ mảng để xoá
-  // findIndex
+  // Tìm kiếm vị trí của Nhân viên đang cần xoá trong mảng arrNhanVien thông qua email (sử dụng findIndex)
   let index = arrNhanVien.findIndex((item) => {
     // console.log(item);
     return item.email == email;
@@ -190,11 +184,8 @@ function getInfoNhanVien(email) {
 // // Chúc năng updateNhanvien
 function updateNhanVien() {
   //   //Thực hiện lấy dữ liệu của người dùng
-  //   // tách hàm khi sữ dụng nhiều lần
   let nhanVien = getValueForm();
-  //  arrNhanVien.push(nhanVien);
-  //console.log(arrNhanVien);
-  //   //tìm kiếm vị trí index của phần tử đang chỉnh sửa trong mảng
+//tìm kiếm vị trí index của phần tử đang chỉnh sửa trong mảng
   let index = arrNhanVien.findIndex((item) => {
     return item.tknv == nhanVien.tknv;
   });
@@ -212,7 +203,6 @@ document.getElementById("btnCapNhat").onclick = updateNhanVien;
 //9.Tìm Nhân Viên theo loại (xuất săc, giỏi, khá...) và hiển thị
 // Chức năng tìm kiếm
 function searchNhanVien(event) {
-  // console.log(event.target.value);
   let newKeyword = removeVietnameseTones(
     event.target.value.toLowerCase().trim()
   );
@@ -225,15 +215,13 @@ function searchNhanVien(event) {
   arrNhanVienFillter = newArrNhanVien.filter(function (item) {
     // thực hiện kiểm tra keyword người dùngnhập vào có được chứa trong nhân viên hay không    console.log(item);
     // console.log(item);
-    //console.log(typeof item.xepLoaiNhanVien(item.gioLam));
     let xepLoai = item.xepLoaiNhanVien(item.gioLam).toLowerCase().trim();
     //  console.log(xepLoai);
+    // convert dữ liệu trước khi đọc=> chuyển keyword thành chữ thường , loại bỏ tất cả các dấu
     let newLoaiNhanVien = removeVietnameseTones(xepLoai);
     // hàm includes
     return newLoaiNhanVien.includes(newKeyword);
   });
-  //console.log(arrNhanVienFillter);
-  // convert dữ liệu trước khi đọc=> chuyển keyword thành chữ thường , loại bỏ tất cả các dấu
   // gọi hàm hiện thị nhân viên
   renderArrNhanVien(arrNhanVienFillter);
 }
