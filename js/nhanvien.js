@@ -17,7 +17,7 @@ class NhanVien {
     this.luongCB = luongCB;
     this.chucVu = chucVu;
     this.gioLam = gioLam;
-    this.xepLoaiNhanVien;
+    this.xepLoaiNhanVien
     this.tongLuong
   }
   tongLuong = function () {
