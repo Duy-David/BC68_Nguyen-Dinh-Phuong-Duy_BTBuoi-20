@@ -1,6 +1,89 @@
 let arrNhanVien = [];
 //1.In ra table danh sách nhân viên
-// lấy dữ liệu người dùng
+function renderArrNhanVien(arr = arrNhanVien) {
+  let content = "";
+  for (let nhanVien of arr) {
+    let newArrNhanVien = Object.assign(new NhanVien(), nhanVien);
+    //    console.log(newArrNhanVien);
+
+    let { tknv, name, email, datepicker, chucVu, gioLam } = newArrNhanVien;
+    // console.log(typeof newArrNhanVien.xepLoaiNhanVien);
+    content += `
+      <tr>
+      <td>${tknv}</td>
+      <td>${name}</td>
+      <td>${email}</td>
+      <td>${datepicker}</td>
+      <td>${chucVu}</td>
+      <td>${newArrNhanVien.tongLuong().toLocaleString("VN", {
+        style: "currency",
+        currency: "VND",
+      })}</td>
+      <td>${newArrNhanVien.xepLoaiNhanVien(gioLam)}</td>
+      <td>
+        <button onclick = "deleteNhanVien('${email}')" class="btn btn-danger">Xoá</button>
+        <button onclick = "getInfoNhanVien('${email}')" class="btn btn-dark mt-3" data-toggle="modal"
+									data-target="#myModal" >Sửa</button>
+      </td>     
+      </tr>
+      `;
+  }
+  document.getElementById("tableDanhSach").innerHTML = content;
+}
+
+//2. Thêm nhân viên
+document.getElementById("formQLNV").onsubmit = function (event) {
+  event.preventDefault();
+  // console.log(arrField);
+
+  let nhanVien = getValueForm();
+  if (!nhanVien) {
+    return;
+  }
+  //console.log(nhanVien);
+
+  // thêm nhân viên vào mảng
+  arrNhanVien.push(nhanVien);
+
+  // console.log(arrNhanVien);
+  //  renderSaveReset(event)
+  // chạy hàm renderArrNhanVien để hiển thị dữ liệu
+  renderArrNhanVien();
+  // gọi tới phương thức lưu trữ local
+  saveLocalStorage();
+
+  // xoá toàn bộ dữ liệu đang có trên form
+  event.target.reset();
+  document.getElementById("formQLNV").reset();
+  //  console.log(arrNhanVien);
+};
+function renderSaveReset() {
+  renderArrNhanVien();
+  saveLocalStorage();
+  // event.target.reset();
+
+  document.getElementById("formQLNV").reset();
+}
+//console.log(arrNhanVien);
+
+getLocalStorage();
+// Lưu trữ dữ liệu xuống local storage
+function saveLocalStorage(key = "arrNhanVien", value = arrNhanVien) {
+  // lưu trữ mảng arrNhanVien xuống local storage
+  let stringJson = JSON.stringify(value);
+  localStorage.setItem(key, stringJson);
+}
+
+// Lấy dữ liệu từ local storage
+function getLocalStorage(key = "arrNhanVien") {
+  // lấy dữ liệu từ local storage lên
+  let arrLocal = localStorage.getItem(key);
+  if (arrLocal) {
+    arrNhanVien = JSON.parse(arrLocal);
+    renderArrNhanVien();
+  }
+}
+//3. Tạo đối tượng nhân viên với thông tin lấy từ form người dùng nhập vào.
 function getValueForm() {
   let arrField = document.querySelectorAll("#formQLNV input,#formQLNV select");
   // console.log(arrField);
@@ -54,87 +137,11 @@ function getValueForm() {
     return nhanVien;
   }
 }
-document.getElementById("formQLNV").onsubmit = function (event) {
-  event.preventDefault();
-  // console.log(arrField);
+//4.Validation (file validation.js)
+//5. Xây dựng phương thức tính tổng lương cho đối tượng nhân viên(file nhanvien.js)
+//6. Xây dựng phương thức xếp loại cho đối tượng nhân viên(file nhanvien.js)
 
-  let nhanVien = getValueForm();
-  if (!nhanVien) {
-    return;
-  }
-  //console.log(nhanVien);
-
-  // thêm nhân viên vào mảng
-  arrNhanVien.push(nhanVien);
-
-  // console.log(arrNhanVien);
-  //  renderSaveReset(event)
-  // chạy hàm renderArrNhanVien để hiển thị dữ liệu
-  renderArrNhanVien();
-  // gọi tới phương thức lưu trữ local
-  saveLocalStorage();
-
-  // xoá toàn bộ dữ liệu đang có trên form
-  event.target.reset();
-  document.getElementById("formQLNV").reset();
-  //  console.log(arrNhanVien);
-};
-function renderSaveReset() {
-  renderArrNhanVien();
-  saveLocalStorage();
-  // event.target.reset();
-
-  document.getElementById("formQLNV").reset();
-}
-//console.log(arrNhanVien);
-function renderArrNhanVien(arr = arrNhanVien) {
-  let content = "";
-  for (let nhanVien of arr) {
-    let newArrNhanVien = Object.assign(new NhanVien(), nhanVien);
-    //    console.log(newArrNhanVien);
-
-    let { tknv, name, email, datepicker, chucVu, gioLam } = newArrNhanVien;
-    // console.log(typeof newArrNhanVien.xepLoaiNhanVien);
-    content += `
-      <tr>
-      <td>${tknv}</td>
-      <td>${name}</td>
-      <td>${email}</td>
-      <td>${datepicker}</td>
-      <td>${chucVu}</td>
-      <td>${newArrNhanVien.tongLuong().toLocaleString("VN", {
-        style: "currency",
-        currency: "VND",
-      })}</td>
-      <td>${newArrNhanVien.xepLoaiNhanVien(gioLam)}</td>
-      <td>
-        <button onclick = "deleteNhanVien('${email}')" class="btn btn-danger">Xoá</button>
-        <button onclick = "getInfoNhanVien('${email}')" class="btn btn-dark mt-3" data-toggle="modal"
-									data-target="#myModal" >Sửa</button>
-      </td>     
-      </tr>
-      `;
-  }
-  document.getElementById("tableDanhSach").innerHTML = content;
-}
-getLocalStorage();
-// Lưu trữ dữ liệu xuống local storage
-function saveLocalStorage(key = "arrNhanVien", value = arrNhanVien) {
-  // lưu trữ mảng arrNhanVien xuống local storage
-  let stringJson = JSON.stringify(value);
-  localStorage.setItem(key, stringJson);
-}
-
-// Lấy dữ liệu từ local storage
-function getLocalStorage(key = "arrNhanVien") {
-  // lấy dữ liệu từ local storage lên
-  let arrLocal = localStorage.getItem(key);
-  if (arrLocal) {
-    arrNhanVien = JSON.parse(arrLocal);
-    renderArrNhanVien();
-  }
-}
-//console.log(arrNhanVien);
+//7.Xóa nhân viên
 // //Chức năng xóa dữ liệu của nhân viên
 function deleteNhanVien(email) {
   // console.log(email);
@@ -153,7 +160,7 @@ function deleteNhanVien(email) {
     saveLocalStorage();
   }
 }
-
+//8.Cập nhật nhân viên (có validation)
 // // chức năng sửa dữ liệu nhân viên
 function getInfoNhanVien(email) {
   // console.log(email);
@@ -197,11 +204,12 @@ function updateNhanVien() {
     document.getElementById("tknv").readOnly = false;
   }
   //đóng moldel
-  $('#myModal').modal('hide')
+  $("#myModal").modal("hide");
 }
 
 document.getElementById("btnCapNhat").onclick = updateNhanVien;
 //console.log(arrNhanVien);
+//9.Tìm Nhân Viên theo loại (xuất săc, giỏi, khá...) và hiển thị
 // Chức năng tìm kiếm
 function searchNhanVien(event) {
   // console.log(event.target.value);

@@ -1,3 +1,4 @@
+//4.validation
 function checkEmptryValue(value, errorField) {
   // Thực hiện kiểm tra lổi cho người dùng]
   if (!value) {
